@@ -10,9 +10,6 @@ import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.widget.RemoteViews
 
 class DecisionWidget : AppWidgetProvider() {
@@ -87,9 +84,6 @@ class DecisionWidget : AppWidgetProvider() {
         super.onReceive(context, intent)
 
         if (intent.action == ACTION_DECIDE) {
-
-            // Short tactile click
-            performHaptic(context)
 
             val widgetId = intent.getIntExtra(
                 AppWidgetManager.EXTRA_APPWIDGET_ID,
@@ -314,23 +308,13 @@ class DecisionWidget : AppWidgetProvider() {
             prefs.getInt(
                 "opacity_$widgetId",
                 90
-            ).coerceIn(
-                10,
-                100
-            )
+            ).coerceIn(10, 100)
 
         val accentOpacity =
             prefs.getInt(
                 "accent_opacity_$widgetId",
                 100
-            ).coerceIn(
-                10,
-                100
-            )
-
-        /*
-         * Theme
-         */
+            ).coerceIn(10, 100)
 
         val systemDark =
             context.resources.configuration.uiMode and
@@ -377,10 +361,6 @@ class DecisionWidget : AppWidgetProvider() {
                 backgroundOpacity
             )
 
-        /*
-         * Text colors
-         */
-
         val primaryText =
             if (resolvedTheme == "light") {
 
@@ -391,7 +371,6 @@ class DecisionWidget : AppWidgetProvider() {
                 )
 
             } else {
-
                 Color.WHITE
             }
 
@@ -413,68 +392,32 @@ class DecisionWidget : AppWidgetProvider() {
                 )
             }
 
-        /*
-         * User accent
-         */
-
         val baseAccent =
             when (accent) {
 
                 "purple" ->
-                    Color.rgb(
-                        108,
-                        99,
-                        255
-                    )
+                    Color.rgb(108, 99, 255)
 
                 "blue" ->
-                    Color.rgb(
-                        20,
-                        100,
-                        244
-                    )
+                    Color.rgb(20, 100, 244)
 
                 "emerald" ->
-                    Color.rgb(
-                        34,
-                        160,
-                        105
-                    )
+                    Color.rgb(34, 160, 105)
 
                 "teal" ->
-                    Color.rgb(
-                        0,
-                        150,
-                        155
-                    )
+                    Color.rgb(0, 150, 155)
 
                 "amber" ->
-                    Color.rgb(
-                        225,
-                        145,
-                        25
-                    )
+                    Color.rgb(225, 145, 25)
 
                 "coral" ->
-                    Color.rgb(
-                        238,
-                        100,
-                        82
-                    )
+                    Color.rgb(238, 100, 82)
 
                 "rose" ->
-                    Color.rgb(
-                        220,
-                        75,
-                        125
-                    )
+                    Color.rgb(220, 75, 125)
 
                 "graphite" ->
-                    Color.rgb(
-                        80,
-                        82,
-                        92
-                    )
+                    Color.rgb(80, 82, 92)
 
                 else -> {
 
@@ -484,8 +427,7 @@ class DecisionWidget : AppWidgetProvider() {
                     ) {
 
                         context.getColor(
-                            android.R.color
-                                .system_accent1_500
+                            android.R.color.system_accent1_500
                         )
 
                     } else {
@@ -500,7 +442,7 @@ class DecisionWidget : AppWidgetProvider() {
             }
 
         /*
-         * Result mood color
+         * Subtle answer mood colors
          */
 
         val moodBaseColor =
@@ -541,7 +483,7 @@ class DecisionWidget : AppWidgetProvider() {
             )
 
         /*
-         * Widget text
+         * Text
          */
 
         views.setTextViewText(
@@ -556,11 +498,8 @@ class DecisionWidget : AppWidgetProvider() {
 
         val actionText =
             if (result == "Ready?") {
-
                 personality.firstButton
-
             } else {
-
                 personality.repeatButton
             }
 
@@ -585,13 +524,11 @@ class DecisionWidget : AppWidgetProvider() {
         )
 
         /*
-         * Widget and button shape
+         * Shapes
          */
 
         val shapeResources =
-            getShapeResources(
-                shape
-            )
+            getShapeResources(shape)
 
         views.setInt(
             R.id.widget_root,
@@ -606,7 +543,7 @@ class DecisionWidget : AppWidgetProvider() {
         )
 
         /*
-         * Background + accent opacity
+         * Colors and opacity
          */
 
         if (
@@ -654,8 +591,7 @@ class DecisionWidget : AppWidgetProvider() {
             DecisionWidget::class.java
         ).apply {
 
-            action =
-                ACTION_DECIDE
+            action = ACTION_DECIDE
 
             putExtra(
                 AppWidgetManager.EXTRA_APPWIDGET_ID,
@@ -681,70 +617,6 @@ class DecisionWidget : AppWidgetProvider() {
             widgetId,
             views
         )
-    }
-
-    /*
-     * Short, crisp haptic click
-     */
-
-    private fun performHaptic(
-        context: Context
-    ) {
-
-        try {
-
-            val vibrator: Vibrator =
-                if (
-                    Build.VERSION.SDK_INT >=
-                    Build.VERSION_CODES.S
-                ) {
-
-                    val vibratorManager =
-                        context.getSystemService(
-                            VibratorManager::class.java
-                        )
-
-                    vibratorManager.defaultVibrator
-
-                } else {
-
-                    @Suppress("DEPRECATION")
-                    context.getSystemService(
-                        Context.VIBRATOR_SERVICE
-                    ) as Vibrator
-                }
-
-            if (!vibrator.hasVibrator()) {
-                return
-            }
-
-            if (
-                Build.VERSION.SDK_INT >=
-                Build.VERSION_CODES.Q
-            ) {
-
-                vibrator.vibrate(
-                    VibrationEffect.createPredefined(
-                        VibrationEffect.EFFECT_CLICK
-                    )
-                )
-
-            } else {
-
-                vibrator.vibrate(
-                    VibrationEffect.createOneShot(
-                        20L,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                    )
-                )
-            }
-
-        } catch (_: Exception) {
-
-            // Widget continues working even if
-            // haptic feedback is unavailable.
-
-        }
     }
 
     private fun withAlpha(
