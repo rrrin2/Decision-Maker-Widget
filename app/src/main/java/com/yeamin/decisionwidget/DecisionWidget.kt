@@ -68,6 +68,9 @@ class DecisionWidget : AppWidgetProvider() {
 
         views.setTextViewText(R.id.result, result)
 
+        val buttonText = if (result == "Ready?") "REVEAL" else "RETHINK"
+        views.setTextViewText(R.id.decide_button, buttonText)
+
         val intent = Intent(context, DecisionWidget::class.java).apply {
             action = ACTION_DECIDE
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)

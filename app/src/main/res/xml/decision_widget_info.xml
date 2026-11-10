@@ -6,4 +6,6 @@
     android:initialLayout="@layout/widget_decision"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:description="@string/widget_description" />
+    android:description="@string/widget_description"
+    android:configure="com.yeamin.decisionwidget.WidgetConfigActivity"
+    android:widgetFeatures="reconfigurable|configuration_optional" />

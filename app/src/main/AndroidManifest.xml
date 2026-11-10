@@ -6,6 +6,12 @@
         android:label="Decision Maker"
         android:theme="@style/AppTheme">
 
+
+        <activity
+            android:name=".WidgetConfigActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+
         <receiver
             android:name=".DecisionWidget"
             android:exported="true">

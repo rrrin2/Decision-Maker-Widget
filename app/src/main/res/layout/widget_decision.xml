@@ -3,37 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp"
+    android:gravity="center_horizontal"
+    android:paddingLeft="20dp"
+    android:paddingTop="16dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="16dp"
     android:background="@drawable/widget_background">
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Decision Maker"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:text="NEED A SIGN?"
+        android:textColor="#99FFFFFF"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.14"
+        android:gravity="start" />
 
     <TextView
         android:id="@+id/result"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text="Ready?"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textColor="#FFFFFFFF"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:maxLines="2" />
 
-    <Button
+    <TextView
         android:id="@+id/decide_button"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="DECIDE"
+        android:layout_height="46dp"
+        android:gravity="center"
+        android:text="REVEAL"
+        android:textColor="#FFFFFFFF"
+        android:textSize="13sp"
         android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#6750A4" />
+        android:letterSpacing="0.08"
+        android:background="@drawable/decide_button_background" />
 
 </LinearLayout>
